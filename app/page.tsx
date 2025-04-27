@@ -80,57 +80,51 @@ export default function Home() {
         </p>
       </motion.div>
 
-      {/* Bento Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        {journeys.map((journey, index) => {
-          // Determine grid span based on size
-          const colSpan = journey.size === "large" ? "md:col-span-2" : journey.size === "medium" ? "md:col-span-1" : ""
-          const rowSpan = journey.size === "large" ? "md:row-span-2" : journey.size === "medium" ? "md:row-span-1" : ""
-
-          return (
-            <motion.div
-              key={journey.id}
-              className={`${colSpan} ${rowSpan}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 * index }}
-            >
-              <Link href={`/chat/${journey.id}`} className="block h-full">
-                <Card className="h-full overflow-hidden border-2 hover:border-primary transition-all hover:shadow-lg group">
-                  <div
-                    className={`${journey.size === "large" ? "aspect-video" : "aspect-square"} w-full overflow-hidden`}
-                  >
-                    <AnimatedImage
-                      src={journey.image}
-                      alt={journey.title}
-                      width={600}
-                      height={400}
-                      effect="zoom"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="text-3xl transform transition-transform group-hover:scale-110 duration-300">
-                        {journey.icon}
-                      </div>
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
-                        {journey.title}
-                      </CardTitle>
+      {/* Bento Masonry Layout */}
+      <div className="columns-1 sm:columns-2 md:columns-3 gap-6 max-w-5xl mx-auto space-y-6">
+        {journeys.map((journey, index) => (
+          <motion.div
+            key={journey.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 * index }}
+            className="break-inside-avoid"
+          >
+            <Link href={`/chat/${journey.id}`} className="block w-full">
+              <Card className="overflow-hidden border-2 hover:border-primary transition-all hover:shadow-lg group">
+                <div
+                  className={`${journey.size === "large" ? "aspect-video" : "aspect-square"} w-full overflow-hidden`}
+                >
+                  <AnimatedImage
+                    src={journey.image}
+                    alt={journey.title}
+                    width={600}
+                    height={400}
+                    effect="zoom"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="text-3xl transform transition-transform group-hover:scale-110 duration-300">
+                      {journey.icon}
                     </div>
-                    <CardDescription>{journey.description}</CardDescription>
-                  </CardContent>
-                  <CardFooter className="p-4 pt-0">
-                    <Button variant="ghost" className="w-full justify-between group">
-                      <span>Start journey</span>
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    </Button>
-                  </CardFooter>
-                </Card>
-              </Link>
-            </motion.div>
-          )
-        })}
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                      {journey.title}
+                    </CardTitle>
+                  </div>
+                  <CardDescription>{journey.description}</CardDescription>
+                </CardContent>
+                <CardFooter className="p-4 pt-0">
+                  <Button variant="ghost" className="w-full justify-between group">
+                    <span>Start journey</span>
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </Button>
+                </CardFooter>
+              </Card>
+            </Link>
+          </motion.div>
+        ))}
 
         {/* Past Conversations Card */}
         <motion.div
